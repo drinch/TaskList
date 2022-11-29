@@ -12,15 +12,18 @@ SOURCES += \
     main.cpp \
     task.cpp \
     taskbox.cpp \
+    taskpage.cpp \
     widget.cpp
 
 HEADERS += \
     task.h \
     taskbox.h \
+    taskpage.h \
     widget.h
 
 FORMS += \
     taskbox.ui \
+    taskpage.ui \
     widget.ui
 
 TRANSLATIONS += \

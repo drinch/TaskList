@@ -5,9 +5,10 @@
 #include <QDate>
 
 class Task{
-    QString title,info;
     QDate startdate,enddate;
 public:
+    QString title,info;
+
     Task();
     Task(QString title_,QString info_="",QDate startdate_=QDate::currentDate(),QDate enddate_=QDate::currentDate());
     Task(const Task& task);
