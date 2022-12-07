@@ -21,12 +21,11 @@ public:
     void loadTaskFromFile(QString path);
     void saveTaskToFile(QString path);
     void updateTaskBoxList();
-    void loadTaskToEditPage(Task& task);
-    Task getNewTaskInfo();
+    void loadTaskToEditPage(Task* task);
     void addTask();
 private:
     Ui::Widget *ui;
-    QMap<Task,double> tasklist;
+    QMap<Task*,double> tasklist;
     QList<TaskBox*> taskboxlist;
     QString savepath;
 };

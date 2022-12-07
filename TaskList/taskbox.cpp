@@ -4,7 +4,7 @@
 #include <QPushButton>
 #include <QLayout>
 
-TaskBox::TaskBox(QWidget * parent,Task task_):
+TaskBox::TaskBox(QWidget * parent,Task* task_):
     QWidget(parent),
     ui(new Ui::TaskBox),
     task(task_)
@@ -16,17 +16,17 @@ TaskBox::TaskBox(QWidget * parent,Task task_):
 TaskBox::~TaskBox(){
     delete ui;
 }
-void TaskBox::setTask(Task& task_){
+void TaskBox::setTask(Task* task_){
     this->task=task_;
     this->updateTask();
 }
-Task& TaskBox::getTask(){
+Task* TaskBox::getTask(){
     return this->task;
 }
 void TaskBox::updateTask(){
-    ui->titlelabel->setText(this->task.getTitle());
-    ui->infolabel->setText(this->task.getInfo());
-    ui->datelabel->setText(this->task.dateText());
+    ui->titlelabel->setText(this->task->title);
+    ui->infolabel->setText(this->task->info);
+    ui->datelabel->setText(this->task->dateText());
 }
 void TaskBox::mouseDoubleClickEvent(QMouseEvent *event){
     if(event->buttons()&Qt::LeftButton)emit this->edit();

@@ -11,7 +11,7 @@ Widget::Widget(QWidget *parent):
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
-    this->setWindowTitle("Task List初版");
+    this->setWindowTitle("Task List");
     this->resize(810,490);
     ui->addtaskbutton->resize(150,150);
     this->savepath=QDir::currentPath()+"/taskdata.txt";
@@ -19,12 +19,13 @@ Widget::Widget(QWidget *parent):
     this->loadTaskFromFile(this->savepath);
     this->updateTaskBoxList();
     connect(ui->addtaskbutton,&QPushButton::clicked,[=](){
-        Task task_;
+        Task* task_=new Task();
+        this->tasklist.insert(task_,0);
         this->loadTaskToEditPage(task_);
         ui->stackedwidget->setCurrentIndex(1);
     });
-    connect(ui->savebutton,&QPushButton::clicked,[=](){
-        this->addTask();
+    connect(ui->taskPage,&TaskPage::back,[=](){
+        ui->taskPage->saveTask();
         this->updateTaskBoxList();
         ui->stackedwidget->setCurrentIndex(0);
     });
@@ -41,8 +42,8 @@ void Widget::loadTaskFromFile(QString path){
     int st=0;
     for(int i=st;i<loadtaskstring.length();i++){
         if(loadtaskstring[i]=='\n'){
-            Task task;
-            task.loadTask(loadtaskstring.mid(st,i-st));
+            Task* task=new Task();
+            task->loadTask(loadtaskstring.mid(st,i-st));
             this->tasklist.insert(task,0);
             st=i+1;
         }
@@ -53,10 +54,10 @@ void Widget::saveTaskToFile(QString path){
     QFile file(path);
     file.open(QIODevice::WriteOnly);
     QString savetaskstring;
-    QMap<Task,double>::const_iterator it=this->tasklist.begin();
+    QMap<Task*,double>::const_iterator it=this->tasklist.begin();
     while(it!=tasklist.end()){
-        Task task=it.key();
-        savetaskstring+=task.saveTask()+"\n";
+        Task* task=it.key();
+        savetaskstring+=task->saveTask()+"\n";
         ++it;
     }
     file.write(savetaskstring.toUtf8());
@@ -70,36 +71,29 @@ void Widget::updateTaskBoxList(){
     int num=this->tasklist.size();
     if(num>14) num=14;
     ui->addtaskbutton->move(((num)%5+1)*160-150,((num)/5+1)*160-150);
-    QMap<Task,double>::const_iterator it=this->tasklist.begin();
+    QMap<Task*,double>::const_iterator it=this->tasklist.begin();
     for(int i=0;i<num;i++){
-        taskboxlist.push_back(new TaskBox(ui->taskpage,it.key()));
+        taskboxlist.push_back(new TaskBox(ui->taskListPage,it.key()));
         taskboxlist[i]->move((i%5+1)*160-150,(i/5+1)*160-150);
         taskboxlist[i]->show();
         connect(taskboxlist[i],&TaskBox::edit,[=](){
-            Task task_=taskboxlist[i]->getTask();
-            tasklist.take(task_);
+            Task* task_=taskboxlist[i]->getTask();
             this->loadTaskToEditPage(task_);
             ui->stackedwidget->setCurrentIndex(1);
         });
         connect(taskboxlist[i],&TaskBox::finished,[=](){
-            Task task_=taskboxlist[i]->getTask();
+            Task* task_=taskboxlist[i]->getTask();
             tasklist.take(task_);
             this->updateTaskBoxList();
         });
         it++;
     }
 }
-void Widget::loadTaskToEditPage(Task& task){
-    ui->titleedit->setText(task.getTitle());
-    ui->infoedit->setText(task.getInfo());
-    ui->startdateedit->setDate(task.getStartDate());
-    ui->enddateedit->setDate(task.getEndDate());
-}
-Task Widget::getNewTaskInfo(){
-    return Task(ui->titleedit->text(),ui->infoedit->toPlainText(),ui->startdateedit->date(),ui->enddateedit->date());
+void Widget::loadTaskToEditPage(Task* task){
+    ui->taskPage->loadTask(task);
 }
 void Widget::addTask(){
-    this->tasklist.insert(getNewTaskInfo(),0);
+//    this->tasklist.insert(getNewTaskInfo(),0);
     this->updateTaskBoxList();
     ui->stackedwidget->setCurrentIndex(0);
 }

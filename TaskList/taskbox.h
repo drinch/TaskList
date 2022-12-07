@@ -14,10 +14,10 @@ class TaskBox : public QWidget
 {
     Q_OBJECT
 public:
-    explicit TaskBox(QWidget * parent = nullptr,Task task_=Task());
+    explicit TaskBox(QWidget * parent = nullptr,Task* task_=new Task());
     ~TaskBox();
-    void setTask(Task& task_);
-    Task& getTask();
+    void setTask(Task* task_);
+    Task* getTask();
     void updateTask();
     void mouseDoubleClickEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
@@ -28,7 +28,7 @@ public:
     void updateSpacing();
 private:
     Ui::TaskBox *ui;
-    Task task;
+    Task* task;
     int spacing;
 signals:
     void edit();

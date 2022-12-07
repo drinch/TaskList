@@ -17,14 +17,14 @@ TaskPage::~TaskPage()
     delete ui;
 }
 void TaskPage::saveTask(){
-    task->title=ui->titleLabel->text();
-    task->info=ui->infoLabel->text();
+    task->title=ui->titleEdit->text();
+    task->info=ui->infoEdit->toPlainText();
     QDate deadline=QDate::fromString(ui->deadlineLabel->text(),"yyyyMMdd");
     task->setDate(deadline);
 }
 void TaskPage::loadTask(Task *task_){
     task=task_;
-    ui->titleLabel->setText(task->title);
-    ui->infoLabel->setText(task->info);
+    ui->titleEdit->setText(task->title);
+    ui->infoEdit->setText(task->info);
     ui->deadlineLabel->setText(task->dateText());
 }
