@@ -6,6 +6,7 @@
 
 class Task{
     QDate startdate,enddate;
+    QDate deadline;//任务期限
 public:
     QString title,info;
 
@@ -18,10 +19,6 @@ public:
     void setDate(QDate& startdate_,QDate& enddate_);
     void setDate(QDate& date_);
     void setTask(Task task);
-    QString getTitle();
-    QString getInfo();
-    QDate& getStartDate();
-    QDate& getEndDate();
     bool dateType();
     QString dateText();
     QString saveTask();

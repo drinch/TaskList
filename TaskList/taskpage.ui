@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>221</height>
+    <height>244</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -91,6 +91,9 @@
          </size>
         </property>
        </widget>
+      </item>
+      <item>
+       <widget class="QDateEdit" name="dateEdit"/>
       </item>
       <item>
        <widget class="QWidget" name="dateInfoWidget" native="true">

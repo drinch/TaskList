@@ -44,18 +44,6 @@ void Task::setTask(Task task){
     this->startdate=task.startdate;
     this->enddate=task.enddate;
 }
-QString Task::getTitle(){
-    return this->title;
-}
-QString Task::getInfo(){
-    return this->info;
-}
-QDate& Task::getStartDate(){
-    return this->startdate;
-}
-QDate& Task::getEndDate(){
-    return this->enddate;
-}
 bool Task::dateType(){
     return (this->startdate==this->enddate);
 }
